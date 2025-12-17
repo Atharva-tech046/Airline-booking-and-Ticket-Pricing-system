@@ -39,7 +39,13 @@ The system relies on 5 core relational models:
 
 ---
 
-## ⚙️ Installation & Setup
+### ⚙️ Installation & Setup
+```bash
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# Mac/Linux
+source venv/bin/activate
 
 ### Prerequisites
 * Python 3.x
@@ -49,3 +55,5 @@ The system relies on 5 core relational models:
 ```bash
 git clone [https://github.com/YOUR_USERNAME/airline-booking-system.git](https://github.com/YOUR_USERNAME/airline-booking-system.git)
 cd airline-booking-system
+
+
