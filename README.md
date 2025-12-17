@@ -3,7 +3,7 @@
 
 **A full-stack flight reservation system featuring real-time dynamic pricing logic, visual seat selection, and ACID-compliant transactional integrity.**
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-blue)
+![Python](https://img.shields.io/badge/Python-3.14%2B-blue)
 ![Django](https://img.shields.io/badge/Django-5.0-green)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue)
 ![Status](https://img.shields.io/badge/Status-In%20Development-orange)
