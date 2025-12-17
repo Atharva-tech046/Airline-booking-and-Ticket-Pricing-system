@@ -38,19 +38,24 @@ The system relies on 5 core relational models:
 5.  **`Booking`**: Links a `User` to a `Seat`. Uses a `OneToOne` relationship to physically block a seat once sold.
 
 ---
-
-### ⚙️ Installation & Setup
-```bash
-python -m venv venv
-# Windows
-venv\Scripts\activate
-# Mac/Linux
-source venv/bin/activate
-
 ### Prerequisites
 * Python 3.x
 * PostgreSQL installed locally
 
+
+## ⚙️ Installation & Setup
+```bash
+python -m venv venv
+```
+
+# Windows
+```bash
+venv\Scripts\activate
+```
+# Mac/Linux
+```bash
+source venv/bin/activate
+```
 ### 1. Clone the Repository
 ```bash
 git clone [https://github.com/YOUR_USERNAME/airline-booking-system.git](https://github.com/YOUR_USERNAME/airline-booking-system.git)
