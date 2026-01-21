@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyScanner Clone | Flight Search</title>
+    
+    <style>
+        /* --- GENERAL STYLES --- */
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; display: flex; flex-direction: column; align-items: center; padding-top: 50px; margin: 0; }
+        
+        /* --- SEARCH CARD --- */
+        .search-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 400px; text-align: center; }
+        h1 { color: #333; margin-bottom: 20px; font-size: 24px; }
+        
+        .input-group { margin-bottom: 15px; text-align: left; }
+        label { display: block; font-size: 14px; color: #666; margin-bottom: 5px; }
+        input { width: 90%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
+        input:focus { border-color: #007bff; }
+
+        button { width: 100%; padding: 14px; background-color: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.2s; }
+        button:hover { background-color: #0056b3; }
+
+        /* --- FLIGHT RESULTS --- */
+        #results-area { margin-top: 30px; width: 100%; max-width: 500px; }
+        
+        .flight-card { 
+            background: white; 
+            padding: 20px; 
+            margin-bottom: 15px; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-left: 5px solid #007bff;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .flight-info h3 { margin: 0 0 5px 0; color: #333; font-size: 18px; }
+        .flight-info p { margin: 0; color: #666; font-size: 14px; }
+        .flight-info small { color: #999; font-size: 12px; }
+
+        .price-tag { 
+            color: #28a745; 
+            font-weight: bold; 
+            font-size: 22px; 
+        }
+
+        .error-msg { color: #c53030; background: #fff5f5; padding: 15px; border-radius: 8px; border: 1px solid #feb2b2; text-align: center; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <div class="search-card">
+        <h1>✈️ Find Your Flight</h1>
+        
+        <div class="input-group">
+            <label>Origin</label>
+            <input type="text" id="origin" placeholder="e.g. JFK" value="JFK">
+        </div>
+
+        <div class="input-group">
+            <label>Destination</label>
+            <input type="text" id="destination" placeholder="e.g. LHR" value="LHR">
+        </div>
+
+        <div class="input-group">
+            <label>Date</label>
+            <input type="date" id="date" value="2025-06-15">
+        </div>
+
+        <button onclick="searchFlights()">Search Flights</button>
+    </div>
+
+    <div id="results-area"></div>
+
+    <script>
+        async function searchFlights() {
+            const origin = document.getElementById('origin').value;
+            const destination = document.getElementById('destination').value;
+            const date = document.getElementById('date').value;
+            const resultsArea = document.getElementById('results-area');
+
+            // Loading Spinner
+            resultsArea.innerHTML = '<p style="text-align:center; color: #666;">🔍 Scanning the skies...</p>';
+
+            try {
+                const response = await fetch(`/api/search/?origin=${origin}&destination=${destination}&date=${date}`);
+                const data = await response.json();
+
+                resultsArea.innerHTML = ''; // Clear loading message
+
+                if (data.length > 0) {
+                    data.forEach(flight => {
+                        
+                        // 1. BEAUTIFY THE DATE
+                        // Converts "2025-12-21 19:11" -> "Dec 21, 7:11 PM"
+                        const dateObj = new Date(flight.departure);
+                        const niceDate = dateObj.toLocaleDateString('en-US', { 
+                            month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' 
+                        });
+
+                        // 2. GENERATE THE CARD
+                        const card = `
+                            <div class="flight-card">
+                                <div style="display:flex; align-items:center; gap:15px;">
+                                    <div style="background:#e3f2fd; padding:10px; border-radius:50%; font-size:20px;">✈️</div>
+                                    
+                                    <div class="flight-info">
+                                        <h3 style="margin:0;">Django Airways</h3>
+                                        <p style="margin:5px 0; color:#555;">${flight.origin} ➝ ${flight.destination}</p>
+                                        <small style="color:#888;">Departs: ${niceDate}</small>
+                                    </div>
+                                </div>
+                                
+                                <div style="text-align:right;">
+                                    <div class="price-tag">$${flight.final_price}</div>
+                                    <button style="background:#28a745; margin-top:5px; padding:8px 15px; font-size:14px; width:auto;">Book</button>
+                                </div>
+                            </div>
+                        `;
+                        resultsArea.innerHTML += card;
+                    });
+                } else {
+                    resultsArea.innerHTML = '<div class="error-msg">❌ No flights found.</div>';
+                }
+
+            } catch (error) {
+                console.error(error);
+                resultsArea.innerHTML = '<div class="error-msg">⚠️ Server Error.</div>';
+            }
+        }
+    </script>
+
+</body>
+</html>
