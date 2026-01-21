@@ -8,6 +8,15 @@
 
 ---
 
+## 🌐 Live Demo
+
+🚀 **Click here to view the live website:**
+**[https://airline-booking-and-ticket-pricing-system.onrender.com](https://airline-booking-and-ticket-pricing-system.onrender.com)**
+
+> **Note:** This project is hosted on a free instance. If the link takes 30-40 seconds to load, please be patient! The server is just "waking up" from sleep mode.
+
+---
+
 ## 📖 Overview
 
 This project is a web-based **Airline Reservation System** designed to mimic real-world flight search platforms. Unlike static websites, this application includes a custom **"Data Seeding Engine"** that programmatically fills the database with realistic flight schedules, prices, and routes, allowing for robust testing and demonstration.
